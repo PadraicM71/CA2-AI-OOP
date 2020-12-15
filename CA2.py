@@ -142,6 +142,9 @@ def checkWin(currentBoard, xORo):
 
 
 def checkBoardFull():
+    '''
+    Checks if game board is full
+    '''
     pass
 
 
