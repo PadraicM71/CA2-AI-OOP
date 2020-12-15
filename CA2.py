@@ -7,7 +7,7 @@
 # player2 move
 # winner?
 # draw?
-# AI implementation
+# AI implementation - choose algorithm!
 # pylint?
 #
 # Clean up code continiously before every commit
@@ -27,7 +27,7 @@ def clear():
         _ = system('clear') 
 
 
-
+#-----------------------------------------------------------
 # Initial thoughts on function for handling user input below
 # Most likely replace this function with try / except later
 # def user_choice(): # Will do try/except later?
@@ -48,15 +48,23 @@ def clear():
 #                 within_range = False
 #     clear()
 #     return int(choice)
-
+#-----------------------------------------------------------
 
 
 current_game = [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 # Initialise our blank board
+# 10 items in list - will only use index 1 to 9 for 
+# board
 
 
 
 def display_board(board): # Board user interface function
+    '''
+    Tic Tac Toe Game Board
+    User Interface
+    Uses indices 1-9 in a List
+    to display player input
+    '''
     # clear()
     print('   |   |')
     print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
@@ -73,7 +81,26 @@ def display_board(board): # Board user interface function
 
 
 def player1Move():
-    pass
+    '''
+    Accept player 1 input and validate it
+    for correct input.
+    Executes player 1 move if space is free.
+    '''
+    
+    move = input ("Please select a position for x ")
+    try:
+        move = int(move)
+        if move > 0 and move < 10:
+            if spaceFree(move):
+                insertMove(move, 'x')
+                    
+                # current_game [move] = 'x'
+            else:
+                print("This space is occupied!!")
+          
+
+    except:
+        print(current_game) # debugging    
 
 
 
@@ -87,19 +114,31 @@ def aiMove():
 
 
 
-def spaceFree():
-    pass
+def spaceFree(position):
+    '''
+    Checks position on Tic Tac Toe
+    game board is free
+    '''
+    return current_game[position] == ' '
+    # returns true if player selected position is free
+
+
+def insertMove(position, letter):
+    '''
+    Inserts player move on
+    Tic Tac Toe game board
+    '''
+    current_game [position] = letter
 
 
 
-def insertMove():
-    pass
-
-
-
-def checkWin():
-    pass
-
+def checkWin(currentBoard, xORo):
+    '''
+    Checks for a game win by either
+    player.
+    '''
+    return (currentBoard[1] == xORo and currentBoard[2] == xORo and currentBoard[3] == xORo)
+    #more winning combinations to be inserted.
 
 
 def checkBoardFull():
@@ -113,13 +152,15 @@ def main():
     print("Welcome to Padraic's Tic Tac Toe")
     # user_choice()
 
-    
+# Still testing basic functions above
 
     display_board(current_game)
 
+    player1Move()
 
-   
-    #  testing
+    display_board(current_game)
+
+    #
     print(list(enumerate(current_game)))
 
     print("Thank you for playing. Hope to see you soon!")
