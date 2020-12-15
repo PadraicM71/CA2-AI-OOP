@@ -1,14 +1,14 @@
 # CA2 Initial Thoughts
 # Tasks:
-# Create user interface and board
-# Initially a 2 player game
-# Handle user input
-# playe1 move
-# player2 move
-# winner?
-# draw?
-# AI implementation - choose algorithm!
-# pylint?
+# Create user interface and board - complete
+# Initially a 2 player game - in progress
+# Handle user input - in progress
+# playe1 move - in progress
+# player2 move - in progress
+# winner? - in progress
+# draw? - in progress
+# AI implementation - choose algorithm! - not started
+# pylint? - continious
 #
 # Clean up code continiously before every commit
 # Comments - function comments etc before every commit
@@ -62,7 +62,8 @@ def display_board(board): # Board user interface function
     '''
     Tic Tac Toe Game Board
     User Interface
-    Uses indices 1-9 in a List
+    Parameter passed is a list:
+    Uses indices 1-9 in a list
     to display player input
     '''
     # clear()
@@ -145,7 +146,10 @@ def checkBoardFull():
     '''
     Checks if game board is full
     '''
-    pass
+    if gameinprogress.count(' ') > 1:
+        return False
+    else:
+        return True
 
 
 
