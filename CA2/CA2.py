@@ -1,17 +1,22 @@
-# CA2 Initial Thoughts
+# CA2 
+
 # Tasks:
 # Create user interface and board - complete
-# Initially a 2 player game - in progress
-# Handle user input - in progress
+# Initially a 2 player game - almost complete
+# Handle user input - almost complete
 # playe1 move - complete
 # player2 move - complete
-# winner? - in progress
-# draw? - in progress
+# winner? - complete
+# draw? - complete
+# AI basic random AI initally to test main game - not started
 # AI implementation - choose algorithm! - not started
 # pylint? - continious
 #
 # Clean up code continiously before every commit
 # Comments - function comments etc before every commit
+# Function comments to be cleaned up yet
+#
+# Full debugging to be completed yet
 
 
 
@@ -96,14 +101,14 @@ def player1Move():
                 if spaceFree(moveP1):
                     p1 = False
                     insertMove(moveP1, 'x')
-                    # current_game [move] = 'x'
+                    # current_game debugging
                 else:
                     print("This position is taken already!")
             else:
                 print("Please provide a valid position between 1-9 Player 1!")
 
         except:
-            print("Please provide a number player1!!")
+            print("Please provide a number Player1!!")
             print(current_game) # debugging
 
 
@@ -123,22 +128,23 @@ def player2Move():
                 if spaceFree(moveP2):
                     p2 = False
                     insertMove(moveP2, 'o')
-                    # current_game [move] = 'o'
+                    # current_game debugging
                 else:
                     print("This position is taken already!")
             else:
-                print("Please provide a valid position between 1-9 Player 1!")
+                print("Please provide a valid position between 1-9 Player 2!")
 
         except:
-            print("Please provide a number player1!!")
+            print("Please provide a number player2!!")
             print(current_game) # debugging
 
 
 
-def aiMove():
+def aiMove(): # Advanced ai
     pass
 
-
+def aiMoveRand(): # Basic Random ai used for testing later
+    pass
 
 def spaceFree(position):
     '''
@@ -163,8 +169,14 @@ def checkWin(currentBoard, xORo):
     Checks for a game win by either
     player.
     '''
-    return (currentBoard[1] == xORo and currentBoard[2] == xORo and currentBoard[3] == xORo)
-    #more winning combinations to be inserted.
+    return ((currentBoard[1] == xORo and currentBoard[2] == xORo and currentBoard[3] == xORo) or
+            (currentBoard[4] == xORo and currentBoard[5] == xORo and currentBoard[6] == xORo) or
+            (currentBoard[7] == xORo and currentBoard[8] == xORo and currentBoard[9] == xORo) or
+            (currentBoard[1] == xORo and currentBoard[4] == xORo and currentBoard[7] == xORo) or
+            (currentBoard[2] == xORo and currentBoard[5] == xORo and currentBoard[8] == xORo) or
+            (currentBoard[3] == xORo and currentBoard[6] == xORo and currentBoard[9] == xORo) or
+            (currentBoard[1] == xORo and currentBoard[5] == xORo and currentBoard[9] == xORo) or
+            (currentBoard[3] == xORo and currentBoard[5] == xORo and currentBoard[7] == xORo))
 
 
 def checkBoardFull(gameinprogress):
@@ -183,25 +195,45 @@ def main():
     clear()
     print("Welcome to Padraic's Tic Tac Toe")
     # user_choice()
-    
     # Still testing basic functions above
-
+#-------------------------------------------------
     display_board(current_game)
 
-    player1Move()
-    display_board(current_game)
+    while (checkBoardFull(current_game)) == False:
+        if checkWin(current_game, 'o') == False:
+            player1Move()
+            display_board(current_game)
+            #print(checkBoardFull(current_game)) #debugging
+        else:
+            print("o has won this time!")
+            break
+      
+        if checkWin(current_game, 'x') == False:
+            if checkBoardFull(current_game) == False:
+                player2Move()
+                display_board(current_game)
+            else:
+                break
 
-    player2Move()
-    display_board(current_game)
+        else:
+            print("x has won this time!")
+            break
 
+    if (checkBoardFull(current_game) and
+        checkWin(current_game, 'x') == False and
+        checkWin(current_game, 'o') == False):
+            print ("It's a draw!")
+        # All 3 conditions must be satisified
+        # for a draw - true,false,false.
+
+
+#-------------------------------------------------
     # if spaceFree(5) == True:
     #     print("free space")
     # else:
     #     print("not free")
 
-
-
-    print(list(enumerate(current_game)))
+    # print(list(enumerate(current_game)))
 
 print("Thank you for playing. Hope to see you soon!")
 
