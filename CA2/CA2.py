@@ -3,8 +3,8 @@
 # Create user interface and board - complete
 # Initially a 2 player game - in progress
 # Handle user input - in progress
-# playe1 move - in progress
-# player2 move - in progress
+# playe1 move - complete
+# player2 move - complete
 # winner? - in progress
 # draw? - in progress
 # AI implementation - choose algorithm! - not started
@@ -64,7 +64,7 @@ def display_board(board): # Board user interface function
     User Interface
     Parameter passed is a list:
     Uses indices 1-9 in a list
-    to display player input
+    to display game board
     '''
     # clear()
     print('   |   |')
@@ -87,26 +87,51 @@ def player1Move():
     for correct input.
     Executes player 1 move if space is free.
     '''
-    
-    move = input ("Please select a position for x ")
-    try:
-        move = int(move)
-        if move > 0 and move < 10:
-            if spaceFree(move):
-                insertMove(move, 'x')
-                    
-                # current_game [move] = 'x'
+    p1 = True
+    while p1 == True:
+        moveP1 = input ("Please choose a position for x Player 1: ")
+        try:
+            moveP1 = int(moveP1)
+            if moveP1 in range (1,10):
+                if spaceFree(moveP1):
+                    p1 = False
+                    insertMove(moveP1, 'x')
+                    # current_game [move] = 'x'
+                else:
+                    print("This position is taken already!")
             else:
-                print("This space is occupied!!")
-          
+                print("Please provide a valid position between 1-9 Player 1!")
 
-    except:
-        print(current_game) # debugging    
+        except:
+            print("Please provide a number player1!!")
+            print(current_game) # debugging
 
 
 
 def player2Move():
-    pass
+    '''
+    Accept player 2 input and validate it
+    for correct input.
+    Executes player 2 move if space is free.
+    '''
+    p2 = True
+    while p2 == True:
+        moveP2 = input ("Please choose a position for o Player 2: ")
+        try:
+            moveP2 = int(moveP2)
+            if moveP2 in range (1,10):
+                if spaceFree(moveP2):
+                    p2 = False
+                    insertMove(moveP2, 'o')
+                    # current_game [move] = 'o'
+                else:
+                    print("This position is taken already!")
+            else:
+                print("Please provide a valid position between 1-9 Player 1!")
+
+        except:
+            print("Please provide a number player1!!")
+            print(current_game) # debugging
 
 
 
@@ -142,7 +167,7 @@ def checkWin(currentBoard, xORo):
     #more winning combinations to be inserted.
 
 
-def checkBoardFull():
+def checkBoardFull(gameinprogress):
     '''
     Checks if game board is full
     '''
@@ -158,21 +183,29 @@ def main():
     clear()
     print("Welcome to Padraic's Tic Tac Toe")
     # user_choice()
-
-# Still testing basic functions above
+    
+    # Still testing basic functions above
 
     display_board(current_game)
 
     player1Move()
-
     display_board(current_game)
 
-    #
+    player2Move()
+    display_board(current_game)
+
+    # if spaceFree(5) == True:
+    #     print("free space")
+    # else:
+    #     print("not free")
+
+
+
     print(list(enumerate(current_game)))
 
-    print("Thank you for playing. Hope to see you soon!")
+print("Thank you for playing. Hope to see you soon!")
 
-
+ 
 
 main()
 
