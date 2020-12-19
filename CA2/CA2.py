@@ -116,8 +116,65 @@ def player2Move():
 
 
 
-def aiMove(): # Advanced ai
-    pass
+def aiMove(aiGoFirstSecond):
+    if aiGoFirstSecond == 0: # 0 implies 1st and assigns 'x' ------ 1 implies 2nd assigns 'o'
+        assignXO = 'x'
+        otherPlayer = 'o'
+    else:
+        assignXO = 'o'
+        otherPlayer = 'x'
+
+
+    availableMoves = [number for number,item in enumerate(current_game) if item == ' ']
+    availableMoves.pop(0)  
+    print(availableMoves) # list of available moves
+
+    boardCopy = []
+    for i in current_game:
+        boardCopy.append(i)
+    print (current_game)
+    print (boardCopy)
+
+    #check for a win by current player and take it
+    for t in availableMoves:
+        boardCopy[t] = assignXO
+        if checkWin(boardCopy, assignXO):
+            insertMove(t, assignXO)
+            return
+        else:
+            boardCopy[t] = ' '
+
+    for h in availableMoves:
+        boardCopy[h] = otherPlayer
+        if checkWin(boardCopy, otherPlayer):
+            insertMove(h, assignXO)
+            return
+        else:
+            boardCopy[h] = ' '  
+
+
+    cornersOpen = []
+    for q in availableMoves:
+        if q in [1,3,7,9]:
+            cornersOpen.append(q)
+            print(q)
+    if len(cornersOpen) > 0:
+        mC = random.choice(cornersOpen)
+        print(mC)
+        insertMove(mC, assignXO)
+        return
+
+
+
+    if 5 in availableMoves:
+        insertMove(5, assignXO)
+        return
+
+
+    finalMove = random.choice(availableMoves) 
+    print(finalMove)
+    last = finalMove
+    insertMove(last, assignXO)
 
 def aiMoveRand(aiGoFirstSecond): # Basic Random ai used for testing later
     if aiGoFirstSecond == 0: # 0 implies 1st and assigns x - 1 implies 2nd assigns o
@@ -204,7 +261,7 @@ def main():
             if choice ==1:
                 player1Move()
             else:
-                aiMoveRand(0)
+                aiMove(0)
             
             display_board(current_game)
         
@@ -217,7 +274,7 @@ def main():
                 if choice ==2:
                     player2Move()
                 else:
-                    aiMoveRand(1)
+                    aiMove(1)
 
                 display_board(current_game)
             else:
