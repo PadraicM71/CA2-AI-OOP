@@ -8,7 +8,7 @@
 # player2 move - complete
 # winner? - complete
 # draw? - complete
-# AI basic random AI initally to test main game - not started
+# AI basic random AI initally to test main game - complete
 # AI implementation - choose algorithm! - not started
 # pylint? - continious
 #
@@ -143,13 +143,17 @@ def player2Move():
 def aiMove(): # Advanced ai
     pass
 
-def aiMoveRand(): # Basic Random ai used for testing later
+def aiMoveRand(aiGoFirstSecond): # Basic Random ai used for testing later
+    if aiGoFirstSecond == 0:
+        assignXO = 'x'
+    else:
+        assignXO = 'o'
     availableMoves = [number for number,space in enumerate(current_game)
                         if space == ' ']
     availableMoves.pop(0)  #remove unused index 0
     print(availableMoves)
     moveP2 = random.choice(availableMoves)
-    insertMove(moveP2, 'o')
+    insertMove(moveP2, assignXO)
 
 def spaceFree(position):
     '''
@@ -204,9 +208,12 @@ def main():
 #-------------------------------------------------
     display_board(current_game)
 
+
+
     while (checkBoardFull(current_game)) == False:
         if checkWin(current_game, 'o') == False:
-            player1Move()
+            # player1Move()
+            aiMoveRand(0)
             display_board(current_game)
             #print(checkBoardFull(current_game)) #debugging
         else:
@@ -215,7 +222,8 @@ def main():
       
         if checkWin(current_game, 'x') == False:
             if checkBoardFull(current_game) == False:
-                aiMoveRand()
+                # aiMoveRand(1)
+                player2Move()
                 display_board(current_game)
             else:
                 break
