@@ -18,7 +18,7 @@
 #
 # Full debugging to be completed yet
 
-
+import random
 
 # Clear screen function
 from os import system, name 
@@ -144,7 +144,12 @@ def aiMove(): # Advanced ai
     pass
 
 def aiMoveRand(): # Basic Random ai used for testing later
-    pass
+    availableMoves = [number for number,space in enumerate(current_game)
+                        if space == ' ']
+    availableMoves.pop(0)  #remove unused index 0
+    print(availableMoves)
+    moveP2 = random.choice(availableMoves)
+    insertMove(moveP2, 'o')
 
 def spaceFree(position):
     '''
@@ -210,7 +215,7 @@ def main():
       
         if checkWin(current_game, 'x') == False:
             if checkBoardFull(current_game) == False:
-                player2Move()
+                aiMoveRand()
                 display_board(current_game)
             else:
                 break
