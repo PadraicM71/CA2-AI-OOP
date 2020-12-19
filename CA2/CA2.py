@@ -32,30 +32,6 @@ def clear():
         _ = system('clear') 
 
 
-#-----------------------------------------------------------
-# Initial thoughts on function for handling user input below
-# Most likely replace this function with try / except later
-# def user_choice(): # Will do try/except later?
-#     '''
-#     User inputs a number (1-9) and we return this in integer form.
-#     No parameter is passed when calling this function.
-#     '''
-#     choice = 'wrong'
-#     within_range = False
-#     while choice.isdigit() == False or within_range == False:
-#         choice = input("Choose one of these numbers (1-9): ")
-#         if choice.isdigit() == False:
-#             print("Sorry that is not a digit!")
-#         if choice.isdigit():
-#             if int(choice) in range(1,9):
-#                 within_range = True
-#             else:
-#                 within_range = False
-#     clear()
-#     return int(choice)
-#-----------------------------------------------------------
-
-
 current_game = [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 # Initialise our blank board
 # 10 items in list - will only use index 1 to 9 for 
@@ -202,19 +178,22 @@ def checkBoardFull(gameinprogress):
 # Execute functions in game - put in main()
 def main():
     clear()
+
     print("Welcome to Padraic's Tic Tac Toe")
 
-    choice = input ( "Would you like to go first (type 1) or second (type 2)? ")
-    q = int(choice)
-    #     if q == 1:
-            
-    #     elif x == 2:
-    #         goFirst = aiMoveRand(1)
-    #         goSecond = player2Move()
-    #     else:
-    #         print("That is not 1 or 2")
-    # except:
-    #     print("Please provide a valid input when you play next time!")
+
+    choice = 'FirstSecond'
+    within_range = False
+    while choice.isdigit() == False or within_range == False:
+        choice = input("Would you like to go first (type 1) or second (type 2)? ")
+        if choice.isdigit() == False:
+            print("Sorry that is not a digit!")
+        if choice.isdigit():
+            if int(choice) in range(1,3):
+                within_range = True
+            else:
+                within_range = False
+    choice = int(choice)
 
 
     display_board(current_game)
@@ -222,20 +201,20 @@ def main():
 
     while (checkBoardFull(current_game)) == False:
         if checkWin(current_game, 'o') == False:
-            if q ==1:
+            if choice ==1:
                 player1Move()
             else:
                 aiMoveRand(0)
             
             display_board(current_game)
-            #print(checkBoardFull(current_game)) #debugging
+        
         else:
             print("o has won this time!")
             break
         
         if checkWin(current_game, 'x') == False:
             if checkBoardFull(current_game) == False:
-                if q ==2:
+                if choice ==2:
                     player2Move()
                 else:
                     aiMoveRand(1)
@@ -267,14 +246,4 @@ def main():
 
 main()
 
-# while True:
-#     try:
-#         goAgain = input("Whould you like to try again? Enter y for yes. ")
-#         if goAgain == 'y':
-#             main()
-#         else:
-#             break
-#     except:
-#         break
-# print("Thank you for playing.")
-
+#ENDS
