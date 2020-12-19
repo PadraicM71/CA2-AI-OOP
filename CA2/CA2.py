@@ -144,7 +144,7 @@ def aiMove(): # Advanced ai
     pass
 
 def aiMoveRand(aiGoFirstSecond): # Basic Random ai used for testing later
-    if aiGoFirstSecond == 0:
+    if aiGoFirstSecond == 0: # 0 implies 1st and assigns x - 1 implies 2nd assigns o
         assignXO = 'x'
     else:
         assignXO = 'o'
@@ -203,27 +203,43 @@ def checkBoardFull(gameinprogress):
 def main():
     clear()
     print("Welcome to Padraic's Tic Tac Toe")
-    # user_choice()
-    # Still testing basic functions above
-#-------------------------------------------------
-    display_board(current_game)
 
+    choice = input ( "Would you like to go first (type 1) or second (type 2)? ")
+    q = int(choice)
+    #     if q == 1:
+            
+    #     elif x == 2:
+    #         goFirst = aiMoveRand(1)
+    #         goSecond = player2Move()
+    #     else:
+    #         print("That is not 1 or 2")
+    # except:
+    #     print("Please provide a valid input when you play next time!")
+
+
+    display_board(current_game)
 
 
     while (checkBoardFull(current_game)) == False:
         if checkWin(current_game, 'o') == False:
-            # player1Move()
-            aiMoveRand(0)
+            if q ==1:
+                player1Move()
+            else:
+                aiMoveRand(0)
+            
             display_board(current_game)
             #print(checkBoardFull(current_game)) #debugging
         else:
             print("o has won this time!")
             break
-      
+        
         if checkWin(current_game, 'x') == False:
             if checkBoardFull(current_game) == False:
-                # aiMoveRand(1)
-                player2Move()
+                if q ==2:
+                    player2Move()
+                else:
+                    aiMoveRand(1)
+
                 display_board(current_game)
             else:
                 break
@@ -248,9 +264,17 @@ def main():
 
     # print(list(enumerate(current_game)))
 
-print("Thank you for playing. Hope to see you soon!")
-
- 
 
 main()
+
+# while True:
+#     try:
+#         goAgain = input("Whould you like to try again? Enter y for yes. ")
+#         if goAgain == 'y':
+#             main()
+#         else:
+#             break
+#     except:
+#         break
+# print("Thank you for playing.")
 
