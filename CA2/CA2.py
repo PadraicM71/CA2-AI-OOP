@@ -169,7 +169,8 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
         insertMove(5, assignXO)                 #algorithm takes center
         return
 
-    #my ai extra however if human takes corner 1st and second move force a distraction
+    # my ai extra - however if human takes corner 1st and 2nd move then force a distraction
+    # taking position 4 - implies player must take position 6 or lose
     checkcountXcorner = []
     checkcountXcorner.append(current_game[1])
     checkcountXcorner.append(current_game[3])
@@ -283,19 +284,19 @@ def main():
             else:
                 within_range = False
     choice = int(choice)
-
+    clear()
     display_board(current_game)
 
     counter = 1 #starts a counter for game moves - used in algorithm to decide initial moves
     while (checkBoardFull(current_game)) == False: #loop until game completion
-
+        
         #first move by player or computer - first check if other player made a winning move
         if checkWin(current_game, 'o') == False: 
             if choice == 1: #choice decided if player or computer went first
                 player1Move()
             else:
                 aiMove(0,counter) #here parameter (0) indicates computer is taking 1st move
-            
+            clear()
             display_board(current_game)
         
         else:
@@ -308,7 +309,7 @@ def main():
                     player2Move()
                 else:
                     aiMove(1,counter) #here parameter (1) indicates computer is taking 2nd move
-
+                clear()
                 display_board(current_game)
             else:
                 break
