@@ -129,7 +129,7 @@ def aiMove(aiGoFirstSecond): # algorithm - computer move - can go first or secon
     availableMoves.pop(0)  
     print(availableMoves) # list of available moves
 
-    #make copy of current game board to evaluate its status and not change values of current_game
+    #make a copy of current game board to evaluate its status and not change values of current_game
     boardCopy = []
     for i in current_game:
         boardCopy.append(i)
@@ -143,7 +143,8 @@ def aiMove(aiGoFirstSecond): # algorithm - computer move - can go first or secon
             insertMove(t, assignXO)
             return
         else:
-            boardCopy[t] = ' '
+            boardCopy[t] = ' ' #reassign boardCopy to its origional status
+                                #for evaluation below
 
     #check for a possible win in the next move by opponent and block it
     for h in availableMoves:
@@ -152,7 +153,8 @@ def aiMove(aiGoFirstSecond): # algorithm - computer move - can go first or secon
             insertMove(h, assignXO)
             return
         else:
-            boardCopy[h] = ' '  
+            boardCopy[h] = ' ' #reassign boardCopy to its origional status
+                                #important here in case of future changes to algorithm
 
     #if available take a corner
     cornersOpen = []
@@ -264,7 +266,7 @@ def main():
             if choice ==1:
                 player1Move()
             else:
-                aiMove(0)
+                aiMove(0) #here parameter (0) indicates computer is taking 1st move
             
             display_board(current_game)
         
@@ -277,7 +279,7 @@ def main():
                 if choice ==2:
                     player2Move()
                 else:
-                    aiMove(1)
+                    aiMove(1) #here parameter (1) indicates computer is taking 2nd move
 
                 display_board(current_game)
             else:
