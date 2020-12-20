@@ -87,7 +87,7 @@ def player1Move():
 
         except:
             print("Please provide a number Player1!!")
-            print(current_game) # debugging
+           # print(current_game) # debugging
 
 
 
@@ -113,7 +113,7 @@ def player2Move():
 
         except:
             print("Please provide a number player2!!")
-            print(current_game) # debugging
+           # print(current_game) # debugging
 
 
 
@@ -127,15 +127,15 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
 
     availableMoves = [number for number,item in enumerate(current_game) if item == ' ']
     availableMoves.pop(0)  
-    print(availableMoves) # list of available moves
+    #print(availableMoves) # list of available moves
 
     #make a copy of current game board to evaluate its status and not change values of current_game
     boardCopy = []
     for i in current_game:
         boardCopy.append(i)
-    print (current_game)
-    print (boardCopy)
-
+    #print (current_game)
+    #print (boardCopy)
+    print (counter)
     #check for a possible win in the next move and take it
     for t in availableMoves:
         boardCopy[t] = assignXO
@@ -161,16 +161,16 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
     for q in availableMoves:
         if q in [1,3,7,9]:
             cornersOpen.append(q)
-            print(q)
+    print(cornersOpen.count('x'))
     if counter < 2 and len(cornersOpen) < 4: # if human player chooses a corner on first game move
         insertMove(5, assignXO)                 #algorithm takes center
         return
-    if counter < 3 and len(cornersOpen) < 3 and aiGoFirstSecond == 1: # play position 4 if move count < 4 where player 1 picks 2 corners in row as first moves
+    if counter == 2 and cornersOpen.count('x') > 2 and aiGoFirstSecond == 1: # play position 4 if move count < 4 where player 1 picks 2 corners in row as first moves
         insertMove(4, assignXO)                                 #to block a double corner and player 1 goes first
         return
     if len(cornersOpen) > 0: #if more than 1 corner available choose a random one
         mC = random.choice(cornersOpen)
-        print(mC)
+        #prin
         insertMove(mC, assignXO)
         return
 
@@ -180,7 +180,6 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
 
     #if all of the above fulfilled pick random move - should be only positions [2,4,6,8] left
     finalMove = random.choice(availableMoves) 
-    print(finalMove)
     last = finalMove
     insertMove(last, assignXO)
 
@@ -194,9 +193,8 @@ def aiMoveRand(aiGoFirstSecond): # Basic Random ai used for testing later
     availableMoves = [number for number,space in enumerate(current_game)
                         if space == ' ']
     availableMoves.pop(0)  #remove unused index 0
-    print(availableMoves)
-    moveP2 = random.choice(availableMoves)
-    insertMove(moveP2, assignXO)
+    rP = random.choice(availableMoves)
+    insertMove(rP, assignXO)
 
 
 
@@ -267,7 +265,7 @@ def main():
 
     display_board(current_game)
 
-    counter = 1 #starts a counter for game moves - used for algorithm if human player plays a corner first
+    counter = 1 #starts a counter for game moves - used for algorithm to decide initial moves
     while (checkBoardFull(current_game)) == False:
         if checkWin(current_game, 'o') == False:
             if choice == 1:
