@@ -9,19 +9,22 @@
 # winner? - complete
 # draw? - complete
 # AI basic random AI initally to test main game - complete
-# AI implementation - choose algorithm! - not started
+# AI implementation - choose algorithm! - complete
 # pylint? - continious
-#
+# AI can go first or second - complete **************
 # Clean up code continiously before every commit
 # Comments - function comments etc before every commit
 # Function comments to be cleaned up yet
 #
 # Full debugging to be completed yet
 
-import random
 
-# Clear screen function
+
+import random
 from os import system, name 
+
+
+
 # Define our clear function 
 def clear(): 
     # for windows 
@@ -32,10 +35,11 @@ def clear():
         _ = system('clear') 
 
 
-current_game = [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
+
 # Initialise our blank board
 # 10 items in list - will only use index 1 to 9 for 
 # board
+current_game = [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 
 
 
@@ -47,7 +51,6 @@ def display_board(board): # Board user interface function
     Uses indices 1-9 in a list
     to display game board
     '''
-    # clear()
     print('   |   |')
     print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
     print('   |   |')
@@ -77,7 +80,6 @@ def player1Move():
                 if spaceFree(moveP1):
                     p1 = False
                     insertMove(moveP1, 'x')
-                    # current_game debugging
                 else:
                     print("This position is taken already!")
             else:
@@ -104,7 +106,6 @@ def player2Move():
                 if spaceFree(moveP2):
                     p2 = False
                     insertMove(moveP2, 'o')
-                    # current_game debugging
                 else:
                     print("This position is taken already!")
             else:
@@ -116,7 +117,7 @@ def player2Move():
 
 
 
-def aiMove(aiGoFirstSecond):
+def aiMove(aiGoFirstSecond): # algorithm - computer move - can go first or second
     if aiGoFirstSecond == 0: # 0 implies 1st and assigns 'x' ------ 1 implies 2nd assigns 'o'
         assignXO = 'x'
         otherPlayer = 'o'
@@ -124,18 +125,18 @@ def aiMove(aiGoFirstSecond):
         assignXO = 'o'
         otherPlayer = 'x'
 
-
     availableMoves = [number for number,item in enumerate(current_game) if item == ' ']
     availableMoves.pop(0)  
     print(availableMoves) # list of available moves
 
+    #make copy of current game board to evaluate its status and not change values of current_game
     boardCopy = []
     for i in current_game:
         boardCopy.append(i)
     print (current_game)
     print (boardCopy)
 
-    #check for a win by current player and take it
+    #check for a possible win in the next move and take it
     for t in availableMoves:
         boardCopy[t] = assignXO
         if checkWin(boardCopy, assignXO):
@@ -144,6 +145,7 @@ def aiMove(aiGoFirstSecond):
         else:
             boardCopy[t] = ' '
 
+    #check for a possible win in the next move by opponent and block it
     for h in availableMoves:
         boardCopy[h] = otherPlayer
         if checkWin(boardCopy, otherPlayer):
@@ -152,29 +154,29 @@ def aiMove(aiGoFirstSecond):
         else:
             boardCopy[h] = ' '  
 
-
+    #if available take a corner
     cornersOpen = []
     for q in availableMoves:
         if q in [1,3,7,9]:
             cornersOpen.append(q)
             print(q)
-    if len(cornersOpen) > 0:
+    if len(cornersOpen) > 0: #if more than 1 corner available choose a random one
         mC = random.choice(cornersOpen)
         print(mC)
         insertMove(mC, assignXO)
         return
 
-
-
-    if 5 in availableMoves:
+    if 5 in availableMoves: # if centre available take it
         insertMove(5, assignXO)
         return
 
-
+    #if all of the above fulfilled pick random move - should be only positions [2,4,6,8] left
     finalMove = random.choice(availableMoves) 
     print(finalMove)
     last = finalMove
     insertMove(last, assignXO)
+
+
 
 def aiMoveRand(aiGoFirstSecond): # Basic Random ai used for testing later
     if aiGoFirstSecond == 0: # 0 implies 1st and assigns x - 1 implies 2nd assigns o
@@ -188,6 +190,8 @@ def aiMoveRand(aiGoFirstSecond): # Basic Random ai used for testing later
     moveP2 = random.choice(availableMoves)
     insertMove(moveP2, assignXO)
 
+
+
 def spaceFree(position):
     '''
     Checks position on Tic Tac Toe
@@ -195,6 +199,7 @@ def spaceFree(position):
     '''
     return current_game[position] == ' '
     # returns true if player selected position is free
+
 
 
 def insertMove(position, letter):
@@ -221,6 +226,7 @@ def checkWin(currentBoard, xORo):
             (currentBoard[3] == xORo and currentBoard[5] == xORo and currentBoard[7] == xORo))
 
 
+
 def checkBoardFull(gameinprogress):
     '''
     Checks if game board is full
@@ -238,7 +244,6 @@ def main():
 
     print("Welcome to Padraic's Tic Tac Toe")
 
-
     choice = 'FirstSecond'
     within_range = False
     while choice.isdigit() == False or within_range == False:
@@ -252,9 +257,7 @@ def main():
                 within_range = False
     choice = int(choice)
 
-
     display_board(current_game)
-
 
     while (checkBoardFull(current_game)) == False:
         if checkWin(current_game, 'o') == False:
