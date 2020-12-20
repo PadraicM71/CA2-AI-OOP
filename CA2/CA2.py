@@ -1,28 +1,8 @@
-# CA2 
-
-# Tasks:
-# Create user interface and board - complete
-# Initially a 2 player game - almost complete
-# Handle user input - almost complete
-# playe1 move - complete
-# player2 move - complete
-# winner? - complete
-# draw? - complete
-# AI basic random AI initally to test main game - complete
-# AI implementation - choose algorithm! - complete
-# pylint? - continious
-# AI can go first or second - complete **************
-# Clean up code continiously before every commit
-# Comments - function comments etc before every commit
-# Function comments to be cleaned up yet
-#
-# Full debugging to be completed yet
-
+# Welcome to CA2 
 
 
 import random
 from os import system, name 
-
 
 
 # clear screen when requested
@@ -121,17 +101,26 @@ def player2Move():
         
 
 
-
-def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first or second
-    if aiGoFirstSecond == 0: # 0 implies 1st and assigns 'x' ------ 1 implies 2nd assigns 'o'
+# algorithm for our game AI
+# see accompanying notes for a more detailed explanation
+def aiMove(aiGoFirstSecond, counter):
+    '''
+    algorithm for game ai
+    2 parameters passed:
+    aiGoFirstSecond:    0 --> computer is taking 1st move
+                        1 --> computer is taking 2nd move
+    counter: counts cycle after each two moves
+    '''
+    if aiGoFirstSecond == 0: # computer taking first move
         assignXO = 'x'
         otherPlayer = 'o'
-    else:
+    else: # computer taking second move
         assignXO = 'o'
         otherPlayer = 'x'
 
+    # list of available move in current game
     availableMoves = [number for number,item in enumerate(current_game) if item == ' ']
-    availableMoves.pop(0)  
+    availableMoves.pop(0) # remove index 0 as not used on game board
 
     #make a copy of current game board to evaluate its status and not change values of current_game
     boardCopy = []
@@ -164,24 +153,26 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
         if q in [1,3,7,9]:
             cornersOpen.append(q)
 
-    #however if human chooses a corner first take 5
+    #however if player chooses a corner first take 5
     if counter < 2 and len(cornersOpen) < 4: # if human player chooses a corner on first game move
-        insertMove(5, assignXO)                 #algorithm takes center
+        insertMove(5, assignXO)                 # algorithm takes center
         return
 
-    # my ai extra - however if human takes corner 1st and 2nd move then force a distraction
+    # however if player takes corner 1st and 2nd move then force a distraction
     # taking position 4 - implies player must take position 6 or lose
-    checkcountXcorner = []
+    # only applies if counter == 2 and x is on 2 corners and computer is going second
+    # see algorithm documentation for this move explanation
+    checkcountXcorner = [] # time pressure will clean up this later
     checkcountXcorner.append(current_game[1])
     checkcountXcorner.append(current_game[3])
     checkcountXcorner.append(current_game[7])
     checkcountXcorner.append(current_game[9])
-    if counter == 2 and checkcountXcorner.count('x') == 2 and aiGoFirstSecond == 1: # play position 4 if move count < 4 where player 1 picks 2 corners in row as first moves
-        insertMove(4, assignXO)                                 #to block a double corner and player 1 goes first
+    if counter == 2 and checkcountXcorner.count('x') == 2 and aiGoFirstSecond == 1: 
+        insertMove(4, assignXO)                                 
         return
 
-    #now take a corner if above 2 conditions are not satisified
-    if len(cornersOpen) > 0: #if more than 1 corner available choose a random one
+    # now take a corner if above conditions are not satisified
+    if len(cornersOpen) > 0: # if more than 1 corner available choose a random one
         mC = random.choice(cornersOpen)
         insertMove(mC, assignXO)
         return
@@ -190,7 +181,7 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
         insertMove(5, assignXO)
         return
 
-    #if all of the above fulfilled pick random move - should be only positions [2,4,6,8] left
+    # if all of the above fulfilled pick random move - should be only positions [2,4,6,8] left
     finalMove = random.choice(availableMoves) 
     last = finalMove
     insertMove(last, assignXO)
