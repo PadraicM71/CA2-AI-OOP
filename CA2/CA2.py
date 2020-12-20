@@ -165,8 +165,8 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
     if counter < 2 and len(cornersOpen) < 4: # if human player chooses a corner on first game move
         insertMove(5, assignXO)                 #algorithm takes center
         return
-    if counter < 3 and len(cornersOpen) < 3: # play position 4 if move count < 4 to block a double corner
-        insertMove(4, assignXO)
+    if counter < 3 and len(cornersOpen) < 3 and aiGoFirstSecond == 1: # play position 4 if move count < 4 where player 1 picks 2 corners in row as first moves
+        insertMove(4, assignXO)                                 #to block a double corner and player 1 goes first
         return
     if len(cornersOpen) > 0: #if more than 1 corner available choose a random one
         mC = random.choice(cornersOpen)
