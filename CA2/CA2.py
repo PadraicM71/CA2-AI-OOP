@@ -117,7 +117,7 @@ def player2Move():
 
 
 
-def aiMove(aiGoFirstSecond): # algorithm - computer move - can go first or second
+def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first or second
     if aiGoFirstSecond == 0: # 0 implies 1st and assigns 'x' ------ 1 implies 2nd assigns 'o'
         assignXO = 'x'
         otherPlayer = 'o'
@@ -156,12 +156,17 @@ def aiMove(aiGoFirstSecond): # algorithm - computer move - can go first or secon
             boardCopy[h] = ' ' #reassign boardCopy to its origional status
                                 #important here in case of future changes to algorithm
 
+
+
     #if available take a corner
     cornersOpen = []
     for q in availableMoves:
         if q in [1,3,7,9]:
             cornersOpen.append(q)
             print(q)
+    if counter < 2 and len(cornersOpen) < 4: # if human player chooses a corner on first move
+        insertMove(5, assignXO)                 #algorithm takes center
+        return
     if len(cornersOpen) > 0: #if more than 1 corner available choose a random one
         mC = random.choice(cornersOpen)
         print(mC)
@@ -261,12 +266,13 @@ def main():
 
     display_board(current_game)
 
+    counter = 1 #starts a counter for game moves - used for algorithm if human player plays a corner first
     while (checkBoardFull(current_game)) == False:
         if checkWin(current_game, 'o') == False:
-            if choice ==1:
+            if choice == 1:
                 player1Move()
             else:
-                aiMove(0) #here parameter (0) indicates computer is taking 1st move
+                aiMove(0,counter) #here parameter (0) indicates computer is taking 1st move
             
             display_board(current_game)
         
@@ -276,15 +282,15 @@ def main():
         
         if checkWin(current_game, 'x') == False:
             if checkBoardFull(current_game) == False:
-                if choice ==2:
+                if choice == 2:
                     player2Move()
                 else:
-                    aiMove(1) #here parameter (1) indicates computer is taking 2nd move
+                    aiMove(1,counter) #here parameter (1) indicates computer is taking 2nd move
 
                 display_board(current_game)
             else:
                 break
-
+            counter += 1
         else:
             print("x has won this time!")
             break
