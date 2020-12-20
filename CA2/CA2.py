@@ -135,7 +135,7 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
         boardCopy.append(i)
     #print (current_game)
     #print (boardCopy)
-    print (counter)
+    print ("counter" + str(counter))
     #check for a possible win in the next move and take it
     for t in availableMoves:
         boardCopy[t] = assignXO
@@ -165,12 +165,18 @@ def aiMove(aiGoFirstSecond, counter): # algorithm - computer move - can go first
     if counter < 2 and len(cornersOpen) < 4: # if human player chooses a corner on first game move
         insertMove(5, assignXO)                 #algorithm takes center
         return
-    if counter == 2 and cornersOpen.count('x') > 2 and aiGoFirstSecond == 1: # play position 4 if move count < 4 where player 1 picks 2 corners in row as first moves
+    #my ai extra
+    checkcountXcorner = []
+    checkcountXcorner.append(current_game[1])
+    checkcountXcorner.append(current_game[3])
+    checkcountXcorner.append(current_game[7])
+    checkcountXcorner.append(current_game[9])
+    print(checkcountXcorner)
+    if counter == 2 and checkcountXcorner.count('x') == 2 and aiGoFirstSecond == 1: # play position 4 if move count < 4 where player 1 picks 2 corners in row as first moves
         insertMove(4, assignXO)                                 #to block a double corner and player 1 goes first
         return
     if len(cornersOpen) > 0: #if more than 1 corner available choose a random one
         mC = random.choice(cornersOpen)
-        #prin
         insertMove(mC, assignXO)
         return
 
